@@ -1,0 +1,47 @@
+<table>
+  <tr>
+    <td class="corner-cell">
+    </td>
+    <td class="column-cell"
+    id={{columnNames[column-1]}}
+    *ngFor="let column of columns">
+      <span class="width-resizer-left"
+            (mousedown)="dragStart($event, column-2)"
+            *ngIf="column>1">
+      </span>
+      <span class="width-resizer-right"
+            (mousedown)="dragStart($event, column-1)">
+      </span>
+      <p class="column-name"
+         [ngStyle]="{'width.px':widthsArray[column-1]}">{{columnNames[column-1]}}
+      </p>
+    </td>
+  </tr>
+  <tr *ngFor="let row of rows">
+    <td class="row-cell" id={{row}}>
+      <span class="height-resizer"
+            (mousedown)="dragStart($event, row-2)"
+            *ngIf="row>1">
+      </span>
+      <div [ngStyle]="{'height.px':heightsArray[row-1]}"></div>
+      <p class="row-name">{{row}}</p>
+      <span class="height-resizer"
+            (mousedown)="dragStart($event, row-1)">
+      </span>
+    </td>
+    <td *ngFor="let column of columns">
+      <input class="cell-input"
+             id={{columnNames[column-1]+row}}
+             (focus)= "inputClicked($event)"
+             (blur)="inputBlurred($event)"
+             (keyup.enter)="enterPressed(column-1,row-1)"
+             [ngStyle]="{'width.px':widthsArray[column-1],
+                         'padding-top.px':heightsArray[row-1]+6}">
+      <img class="cell-image"
+           id={{columnNames[column-1]+row}}
+           (click)="imgClicked($event)"
+           width={{widthsArray[column-1]-2}}
+           height={{heightsArray[row-1]+22}}>
+    </td>
+  </tr>
+</table>
