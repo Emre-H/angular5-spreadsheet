@@ -8,7 +8,7 @@ Source codes can be find in **`src`** folder
 
 
 ## Live Demo
-For live demo click here: #TODO
+For live demo click here: https://emre-h.github.io/angular5-spreadsheet-demo/
 ## Installation
 You can import this library in any Angular application by running:
 ```bash
