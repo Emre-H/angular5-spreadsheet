@@ -14,7 +14,8 @@ You can import this library in any Angular application by running:
 ```bash
 $ npm install angular5-spreadsheet
 ```
-and then from your Angular `AppModule`:
+(It might give warnings.)
+And then from your Angular `AppModule`:
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -76,13 +77,15 @@ If you want to delete an image just click on it and press the **`backspace`** ke
 ## Known Issues
 
  - It gets slower if you want to create big sheets like 100x100
-
+ - Resizing and deleting images doesn't work on mobile
+ - On Iphones, there is a shadow inside of cells
+ 
 ## Working times for this project
 
  - 04/11/2017 ~(20:00-22:00)
  - 05/11/2017 ~(18:30-23:00)
  - Midterm exams
- (06/11/207 - 17/11/2017)
+ (06/11/2017 - 17/11/2017)
  - Visit to hometown (Istanbul)
  (18/11/2017 - 20/11/2017)
  - 21/11/2017 ~(23:00-01:00)
