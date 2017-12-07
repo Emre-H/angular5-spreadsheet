@@ -42,11 +42,11 @@ export class AppModule { }
 ## Usage
 Once library is imported, you can use its sheet component in your Angular application:
 ```html
-<sheet></sheet>
+<ng-sheet></ng-sheet>
 ```
 Or you can pass some values to adjust sheet:
 ```html
-<sheet row="20" column="15" minWidth="70" minHeight="0"></sheet>
+<ng-sheet row="20" column="15" minWidth="70" minHeight="0"></ng-sheet>
 ```
 
  1. **row** value determines how many rows there will be in sheet (default: 20)

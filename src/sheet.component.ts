@@ -4,11 +4,11 @@ import { HostListener } from '@angular/core';
 import { Input } from '@angular/core';
 import { OnInit } from '@angular/core';
 @Component({
-  selector: 'sheet',
-  templateUrl:'./sheet.component.html',
+  selector: 'ng-sheet',
+  templateUrl: './sheet.component.html',
   styleUrls: ['./sheet.component.css']
 })
-export class SheetComponent implements OnInit{
+export class SheetComponent implements OnInit {
   // These variables will be initialized or change in functions.
   rows = null;
   columns = null;
@@ -28,34 +28,34 @@ export class SheetComponent implements OnInit{
   mouseDown = false;
   isImgClicked = false;
   // Input to determine how many rows there will be in sheet
-  @Input() row: string = "20";
+  @Input() row = '20';
   // Input to determine how many columns there will be in sheet
-  @Input() column: string = "15";
+  @Input() column = '15';
   // Input to determine cells' minimum width
-  @Input() minWidth: string = "70";
+  @Input() minWidth = '70';
   // Input to determine cells' minimum height
-  @Input() minHeight: string = "0";
-  ngOnInit(){
+  @Input() minHeight = '0';
+  ngOnInit() {
     // Check if given column value is number and greater than 1
-    if (this.isNumber(this.column) && parseFloat(this.column) > 1){
+    if (this.isNumber(this.column) && parseFloat(this.column) > 1) {
       /* If it is, set columnNumber variable to
          given value's converted form */
       this.columnNumber = parseFloat(this.column);
     }
     // Check if given row value is number and greater than 1
-    if (this.isNumber(this.row) && parseFloat(this.row) > 1){
+    if (this.isNumber(this.row) && parseFloat(this.row) > 1) {
       /* If it is, set rowNumber variable to
          given value's converted form */
       this.rowNumber = parseFloat(this.row);
     }
     // Check if given minWidth value is number and greater than 70
-    if (this.isNumber(this.minWidth) && parseFloat(this.minWidth) > 70){
+    if (this.isNumber(this.minWidth) && parseFloat(this.minWidth) > 70) {
       /* If it is, set cells' minimum width variable to
          given value's converted form */
       this.minCellWidth = parseFloat(this.minWidth);
     }
     // Check if given minHeight value is number and greater than 0
-    if (this.isNumber(this.minHeight) && parseFloat(this.minHeight) > 0){
+    if (this.isNumber(this.minHeight) && parseFloat(this.minHeight) > 0) {
       /* If it is, set cells' minimum height variable to
          given value's converted form */
       this.minCellHeight = parseFloat(this.minHeight);
@@ -68,8 +68,8 @@ export class SheetComponent implements OnInit{
     /* Fill above array with 1 to array's length.
        These numbers are bound to cells' id(row name) in HTML and
        also used in other functions as their indexes in heightsArray */
-    for(var i=0;i<this.rows.length;i++){
-      this.rows[i] = i+1;
+    for (let i = 0; i < this.rows.length; i++) {
+      this.rows[i] = i + 1;
     }
     /* Create an array of size given column value
        This array is bound to *ngFor in HTML and
@@ -80,8 +80,8 @@ export class SheetComponent implements OnInit{
        These numbers are used in other functions
        as cells' indexes in widthsArray
        and also in columnNames */
-    for(var i=0;i<this.columns.length;i++){
-      this.columns[i] = i+1;
+    for (let i = 0; i < this.columns.length; i++) {
+      this.columns[i] = i + 1;
     }
     /* Create an array with size of columns array's size and
        fill it with minimum column width.
@@ -94,31 +94,32 @@ export class SheetComponent implements OnInit{
        its items are bound to several element heights in HTML */
     this.heightsArray = Array(this.rowNumber).fill(this.minCellHeight);
     // Alphabet array to use naming columns
-    var  alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+    let  alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+         'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     // At first set columnNames to copy of alphabet array
     this.columnNames = alphabet.slice();
     // Check if there is more columns than letters in alphabet
-    if(this.columns.length>alphabet.length){
+    if (this.columns.length > alphabet.length) {
       // If there is, calculate the difference between them
-      var diff = this.columns.length - alphabet.length;
-      var indexAlphabet = 0;
-      var indexColumnNames = 0;
-      var letter = null;
+      let diff = this.columns.length - alphabet.length;
+      let indexAlphabet = 0;
+      let indexColumnNames = 0;
+      let letter = null;
       /* Loop the codes below until difference becomes zero.
          This is for expanding columnNames array's size to
          be equal with column numbers */
-      while(diff>0){
+      while (diff > 0) {
         // Take the letter from alphabet array according to indexAlphabet
         letter = alphabet[indexAlphabet];
         /* Take an element from columnNames array according to indexColumnNames
            and combine it with a constantly changing letter from alphabet
            then add this new string to the columnNames.
-           This will create a pattern like "A,B,C,..,AA,AB,AC,..,BA,BB,BC.." */
+           This will create a pattern like 'A,B,C,..,AA,AB,AC,..,BA,BB,BC..' */
         this.columnNames.push(this.columnNames[indexColumnNames] + letter);
         // Increase indexAlphabet one for moving next letter in the next loop
         indexAlphabet = indexAlphabet + 1;
         // Check if indexAlphabet reach the end of alphabet array
-        if(indexAlphabet == alphabet.length){
+        if (indexAlphabet === alphabet.length) {
           // If it is, set it zero to start over
           indexAlphabet = 0;
           /* Increase indexColumnNames one
@@ -131,9 +132,9 @@ export class SheetComponent implements OnInit{
       }
     }
   }
-  inputClicked(event){
+  inputClicked(event) {
     // Check if any image is selected before
-    if(this.targetImg != null){
+    if (this.targetImg != null) {
       /* If it is, make changes of previously selected image element's style
          to make it obvious that it is no longer selected */
       this.undoSelectedStyle(this.targetImg);
@@ -146,70 +147,70 @@ export class SheetComponent implements OnInit{
        to make it obvious that it is selected */
     this.makeSelectedStyle(this.targetInput);
   }
-  enterPressed(columnIndex,rowIndex){
+  enterPressed(columnIndex, rowIndex) {
     // Blur selected input to call inputBlurred function
     this.targetInput.blur();
     // Get selected input element's value
-    var input = this.getInputValue(this.targetInput);
+    let input = this.getInputValue(this.targetInput);
     // Check if the value is a call to calculate a mathematical expression
-    if(this.isMathTriggered(input)){
+    if (this.isMathTriggered(input)) {
       /* If it is, change selected input element's value to
          evaluated value of expression */
       this.changeInputValue(this.targetInput, this.mathEval(input));
     }
     // Check if the value is a call to put an image
-    if(this.isImgTriggered(input)){
-      var originalImgWidth;
-      var originalImgHeight;
+    if (this.isImgTriggered(input)) {
+      let originalImgWidth;
+      let originalImgHeight;
       // If it is, get selected input element's current cell's sizes
-      var currentRowHeight = this.heightsArray[rowIndex];
-      var currentColumnWidth = this.widthsArray[columnIndex];
-      /* These variables are for scope issues of the below function
+      let currentRowHeight = this.heightsArray[rowIndex];
+      let currentColumnWidth = this.widthsArray[columnIndex];
+      /* These letiables are for scope issues of the below function
          Basically redeclaration of arrays that holds
          bound sizes of every cell */
-      var heightsArray = this.heightsArray;
-      var widthsArray = this.widthsArray;
+      let heightsArray = this.heightsArray;
+      let widthsArray = this.widthsArray;
       // This image for using the below function
-      var tempImg = new Image();
+      let tempImg = new Image();
       /* This function is for getting image's
          original width and height when load.
          This is needed because of auto arranging the cell's
          width and height according to image */
-      tempImg.onload = function(){
+      tempImg.onload = function() {
         originalImgWidth = tempImg.width;
         originalImgHeight = tempImg.height;
         // Check if the cell's current height is smaller than image's height
-        if(currentRowHeight < originalImgHeight){
+        if (currentRowHeight < originalImgHeight) {
           // If it is, change cell's bound height to image's height
           heightsArray[rowIndex] = originalImgHeight;
         }
         // Check if the cell's current width is smaller than image's width
-        if(currentColumnWidth < originalImgWidth){
+        if (currentColumnWidth < originalImgWidth) {
           // If it is, change cell's bound width to image's width
           widthsArray[columnIndex] = originalImgWidth;
         }
       };
       // Get image's source link from input's value
-      var src = this.getSrcLink(input);
+      let src = this.getSrcLink(input);
       /* Set source of the image that is using for getting
          original sizes to the link for calling function above */
-      this.setSrc(tempImg,src);
+      this.setSrc(tempImg, src);
       // Get HTMLImageElement that shares same cell with selected input element
-      var img = this.getImgElement(this.targetInput);
+      let img = this.getImgElement(this.targetInput);
       // Set HTMLImageElement's source to the link
-      this.setSrc(img,src);
+      this.setSrc(img, src);
       // Make selected input element invisible by setting its display to none
-      this.changeDisplay(this.targetInput,"none");
+      this.changeDisplay(this.targetInput, 'none');
       // Make image element visible by setting its display to block
-      this.changeDisplay(img,"block");
+      this.changeDisplay(img, 'block');
     }
   }
-  inputBlurred(){
+  inputBlurred() {
     /* Make changes of previously selected input element's style
        to make it obvious that it is no longer selected */
     this.undoSelectedStyle(this.targetInput);
   }
-  imgClicked(event){
+  imgClicked(event) {
     // Inform other functions that one image is clicked
     this.isImgClicked = true;
     // Get HTMLImageElement of clicked image
@@ -219,7 +220,7 @@ export class SheetComponent implements OnInit{
     this.makeSelectedStyle(this.targetImg);
   }
   // This function is called when mouse is down
-  dragStart(event, number){
+  dragStart(event, number) {
     /* This number is index for later uses to get
        bound sizes of the target cell from array in other functions */
     this.targetNumber = number;
@@ -230,14 +231,13 @@ export class SheetComponent implements OnInit{
     this.previousX = event.clientX;
     this.previousY = event.clientY;
     // Check if the dragging started by height resizer
-    if(this.getTarget(event).className == "height-resizer"){
+    if (this.getTarget(event).className === 'height-resizer') {
       // If it is, inform other functions that user is dragging height resizer
-      this.dragging = "height-resizer";
-    }
-    else{
+      this.dragging = 'height-resizer';
+    }else {
       /* If it isn't, inform other functions
       that user is dragging width resizer */
-      this.dragging = "width-resizer";
+      this.dragging = 'width-resizer';
     }
   }
   @HostListener('window:mouseup', ['$event'])
@@ -247,50 +247,48 @@ export class SheetComponent implements OnInit{
   }
   @HostListener('window:mousemove', ['$event'])
   whileDragging(event: MouseEvent) {
-    if(this.mouseDown){
-      var changeX = 0;
-      var changeY = 0;
+    if (this.mouseDown) {
+      let changeX = 0;
+      let changeY = 0;
       // Get mouse's current positions
-      var currentX = event.clientX;
-      var currentY = event.clientY;
+      let currentX = event.clientX;
+      let currentY = event.clientY;
       // Check if user is dragging width resizer
-      if(this.dragging == "width-resizer") {
+      if (this.dragging === 'width-resizer') {
         // If it is, get target cell's bound width
-        var currentColumnWidth = this.widthsArray[this.targetNumber];
+        let currentColumnWidth = this.widthsArray[this.targetNumber];
         // Calculate mouse's change of X position
         changeX = currentX - this.previousX;
         // Calculate new width by adding old width and change
-        var newColumnWidth = currentColumnWidth + changeX;
+        let newColumnWidth = currentColumnWidth + changeX;
         // Check if the calculated new width is bigger than minimum width
-        if(newColumnWidth >= this.minCellWidth){
+        if (newColumnWidth >= this.minCellWidth) {
           // If it is, set cell's bound width to new width
           this.widthsArray[this.targetNumber] = newColumnWidth;
           /* Set mouse's old X position to current new position for accurate
              calculations in next loop */
           this.previousX = this.previousX + changeX;
-        }
-        else{
+        }else {
           // If it isn't, set cell's bound width to minimum width
           this.widthsArray[this.targetNumber] = this.minCellWidth;
         }
       }
       // Check if user is dragging height resizer
-      if(this.dragging == "height-resizer") {
+      if (this.dragging === 'height-resizer') {
         // If it is, get target cell's bound height
-        var currentRowHeight = this.heightsArray[this.targetNumber];
+        let currentRowHeight = this.heightsArray[this.targetNumber];
         // Calculate mouse's change of Y position
         changeY = currentY - this.previousY;
         // Calculate new height by adding old height and change
-        var newRowHeight = currentRowHeight + changeY;
+        let newRowHeight = currentRowHeight + changeY;
         // Check if the calculated new height is bigger than minimum height
-        if(newRowHeight >= this.minCellHeight){
+        if (newRowHeight >= this.minCellHeight) {
           // If it is, set cell's bound height to new height
           this.heightsArray[this.targetNumber] = newRowHeight;
           /* Set mouse's old Y position to current new position for accurate
              calculations in next loop */
           this.previousY = this.previousY + changeY;
-        }
-        else{
+        }else {
           // If it isn't, set cell's bound height to minimum height
           this.heightsArray[this.targetNumber] = this.minCellHeight;
         }
@@ -300,107 +298,107 @@ export class SheetComponent implements OnInit{
   @HostListener('window:keyup.backspace', ['$event'])
   backspacePressed(event: KeyboardEvent) {
     // Check if any image is clicked right now
-    if(this.isImgClicked == true){
+    if (this.isImgClicked === true) {
       /* If it is, make input element(which shares same cell with clicked image)
          visible by setting its display to inline */
-      this.changeDisplay(this.getInputElement(this.targetImg),"inline");
+      this.changeDisplay(this.getInputElement(this.targetImg), 'inline');
       // Make image element invisible by setting its display to none
-      this.changeDisplay(this.targetImg,"none");
+      this.changeDisplay(this.targetImg, 'none');
     }
   }
   // Returns given event's a target HTMLElement
-  getTarget(event){
+  getTarget(event) {
     return (event.target || event.srcElement || event.currentTarget);
   }
   /* Returns an array with (ColumnName), (RowName) seperated from each other,
-     according to given id with "(ColumnName)(RowName)" format, e.g: B16) */
-  idSeperator(id){
+     according to given id with '(ColumnName)(RowName)' format, e.g: B16) */
+  idSeperator(id) {
     return /^(\D*)(.*)$/.exec(id);
   }
   /* Returns HTMLTableDataCellElement(RowCell) according to given HTMLElement
-    (HTMLElement should have id with "(ColumnName)(RowName)" format, e.g: B16)*/
-  getRowCell(target){
-    var rowName = this.idSeperator(target.id)[2];
-    var rowCell = document.getElementById(rowName);
+    (HTMLElement should have id with '(ColumnName)(RowName)' format, e.g: B16)*/
+  getRowCell(target) {
+    let rowName = this.idSeperator(target.id)[2];
+    let rowCell = document.getElementById(rowName);
     return rowCell;
   }
   /* Returns HTMLTableDataCellElement(ColumnCell) according to given HTMLElement
-    (HTMLElement should have id with "(ColumnName)(RowName)" format, e.g: B16)*/
-  getColumnCell(target){
-    var columnName = this.idSeperator(target.id)[1];
-    var columnCell = document.getElementById(columnName);
+    (HTMLElement should have id with '(ColumnName)(RowName)' format, e.g: B16)*/
+  getColumnCell(target) {
+    let columnName = this.idSeperator(target.id)[1];
+    let columnCell = document.getElementById(columnName);
     return columnCell;
   }
   // Sets given HTMLElement's backgroundColor to given string
-  changeBgColor(target, color){
+  changeBgColor(target, color) {
     target.style.backgroundColor = color;
   }
   // Sets given HTMLElement's border style to given string
-  changeBorder(target, border){
+  changeBorder(target, border) {
     target.style.border = border;
   }
   // Returns given HTMLInputElement's value
-  getInputValue (target){
+  getInputValue (target) {
     return target.value;
   }
   // Sets given HTMLInputElement's value to given value
-  changeInputValue(target, value){
+  changeInputValue(target, value) {
     target.value = value;
   }
-  // Checks if given string has "=" as a first char
+  // Checks if given string has '=' as a first char
   isMathTriggered (input) {
-    return (input[0] == "=" && input.length > 1);
+    return (input[0] === '=' && input.length > 1);
   }
   // Checks if given string has [img][/img] tags
-  isImgTriggered (input){
-    return (input.split(/\[img\]|\[\/img\]/).length==3);
+  isImgTriggered (input) {
+    return (input.split(/\[img\]|\[\/img\]/).length === 3);
   }
   // Returns the string that freed from [img][/img] tags
-  getSrcLink(input){
+  getSrcLink(input) {
     return input.split(/\[img\]|\[\/img\]/)[1];
   }
   // Sets given HTMLElement's display to given string
-  changeDisplay(target,display){
+  changeDisplay(target, display) {
     target.style.display = display;
   }
   // Sets given HTMLImageElement source to given string
-  setSrc(target,src){
+  setSrc(target, src) {
     target.src = src;
   }
   // Returns HTMLImageElement that shares same cell with given HTMLInputElement
-  getImgElement(target){
+  getImgElement(target) {
     return target.parentNode.children[1];
   }
   // Returns HTMLInputElement that shares same cell with given HTMLImageElement
-  getInputElement(target){
+  getInputElement(target) {
     return target.parentNode.children[0];
   }
   /* Sets given HTMLElement's style to selected form(darker)
      (also its row and column cells) */
-  makeSelectedStyle(target){
-    this.changeBorder(target,"1px solid SteelBlue");
-    this.changeBgColor(this.getColumnCell(target),"SteelBlue");
-    this.changeBgColor(this.getRowCell(target),"SteelBlue");
+  makeSelectedStyle(target) {
+    this.changeBorder(target, '1px solid SteelBlue');
+    this.changeBgColor(this.getColumnCell(target), 'SteelBlue');
+    this.changeBgColor(this.getRowCell(target), 'SteelBlue');
   }
   /* Sets given HTMLElement's style back to the original form(lighter)
      (also its row and column cells) */
-  undoSelectedStyle(target){
-    this.changeBorder(target,"1px solid white");
-    this.changeBgColor(this.getColumnCell(target),"LightSteelBlue");
-    this.changeBgColor(this.getRowCell(target),"LightSteelBlue");
+  undoSelectedStyle(target) {
+    this.changeBorder(target, '1px solid white');
+    this.changeBgColor(this.getColumnCell(target), 'LightSteelBlue');
+    this.changeBgColor(this.getRowCell(target), 'LightSteelBlue');
   }
   // Checks if a given string is number
-  isNumber (string){
+  isNumber (string) {
     return !isNaN(parseFloat(string)) && isFinite(string);
   }
   // Tries to mathematically evaluate any given string
-  mathEval (exp){
+  mathEval (exp) {
     // Regex to catch anything but basic algebraic expressions
-    var regex = /(?:[a-z$_][a-z0-9$_]*)|(?:[;={}\[\]"'!&<>^\\?:])/ig;
-    var valid = true;
-    var originalExp = exp;
-    var elementValue = undefined;
-    // Delete first char of string which is "=" that comes from triggering
+    let regex = /(?:[a-z$_][a-z0-9$_]*)|(?:[;={}\[\]"'!&<>^\\?:])/ig;
+    let valid = true;
+    let originalExp = exp;
+    let elementValue = undefined;
+    // Delete first char of string which is '=' that comes from triggering
     exp = exp.slice(1);
     // Detect valid identifier names and replace them
     exp = exp.replace(regex, function (word){
@@ -408,36 +406,30 @@ export class SheetComponent implements OnInit{
          If it is, replace the word with cell value */
       try {
         elementValue = (<HTMLInputElement>document.getElementById(word)).value;
-        if(elementValue == ""){
+        if (elementValue === '') {
           elementValue = 0;
         }
-        if(elementValue != undefined){
+        if (elementValue !== undefined) {
           return elementValue;
         }
-      }
-      // If it isn't, move on
-      catch(err){}
+      }catch (err) {} // If it isn't, move on
       // If the word is a direct member of Math, allow
-      if (Math.hasOwnProperty(word)){
-        return "Math."+ word;
-      }
-      // Otherwise the expression is invalid
-      else{
+      if (Math.hasOwnProperty(word)) {
+        return 'Math.' + word;
+      }else { // Otherwise the expression is invalid
       valid = false;
       }
     });
     /* Don't eval if our replace function flagged as invalid,
        instead return original expression */
-    if (!valid){
+    if (!valid) {
     return originalExp;
-    }
-    /* Try to eval expression,
-       if it gives an error return original expression */
-    else{
+    }else {
+      /* Try to eval expression,
+      if it gives an error return original expression */
       try {
         return eval(exp);
-      }
-      catch (e) {
+      }catch (e) {
         return originalExp;
       };
     }
